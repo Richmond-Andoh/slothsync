@@ -23,6 +23,7 @@ from rich.table import Table
 from rich.progress import Progress, TextColumn, BarColumn, TaskID
 from rich.panel import Panel
 from rich import print as rprint
+from watchdog.events import FileSystemEventHandler
 
 # Add project root to path so we can import classifier
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -257,10 +258,11 @@ def classify_and_route(file_path: Path, dry_run: bool = False) -> dict:
 
 
 # ── Watchdog Event Handler ──────────────────────────────────────────────
-class SlothHandler:
+class SlothHandler(FileSystemEventHandler):
     """watchdog event handler that debounces file write events."""
 
     def __init__(self, dry_run: bool = False, watch_dir: Path = DEFAULT_WATCH_DIR):
+        super().__init__()
         self.dry_run = dry_run
         self.watch_dir = watch_dir.resolve()
         self.pending = {}  # filename -> timestamp of first event
