@@ -1,0 +1,13 @@
+# Virtual Environment
+venv/
+.env
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# SQLite database (will be created at runtime)
+*.db
+
+# Ollama
